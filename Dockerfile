@@ -1,5 +1,5 @@
 # ============================================================
-# MOV Workflow Tool - RunPod ComfyUI Docker Template
+# MOV Workflow Tool - RunPod ComfyUI Docker Template v1.0
 # ============================================================
 # Architecture: "Symlink方式"
 #   - ComfyUI本体 + venv + カスタムノード → コンテナディスク (/opt/comfyui)
@@ -83,14 +83,14 @@ RUN git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
 # カスタムノードの依存パッケージを一括インストール
 # ============================================================
 RUN for dir in */; do \
-        if [ -f "${dir}requirements.txt" ]; then \
-            echo "=== Installing deps for ${dir} ===" && \
-            $VENV_DIR/bin/pip install -r "${dir}requirements.txt" || true; \
-        fi; \
-        if [ -f "${dir}install.py" ]; then \
-            echo "=== Running install.py for ${dir} ===" && \
-            cd "${dir}" && $VENV_DIR/bin/python install.py && cd ..; \
-        fi; \
+    if [ -f "${dir}requirements.txt" ]; then \
+    echo "=== Installing deps for ${dir} ===" && \
+    $VENV_DIR/bin/pip install -r "${dir}requirements.txt" || true; \
+    fi; \
+    if [ -f "${dir}install.py" ]; then \
+    echo "=== Running install.py for ${dir} ===" && \
+    cd "${dir}" && $VENV_DIR/bin/python install.py && cd ..; \
+    fi; \
     done
 
 # ============================================================
