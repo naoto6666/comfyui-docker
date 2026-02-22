@@ -79,6 +79,13 @@ RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git
 # Impact Pack: 検出・セグメント系
 RUN git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
 
+# --- VACE（キャラクター一貫性 + SVI無限動画）---
+# WanVaceAdvanced: VACE制御ノード（リファレンス画像、強度調整、ファントム埋め込み）
+RUN git clone https://github.com/drozbay/ComfyUI-WanVaceAdvanced.git
+
+# Wan-VACE-Prep: クリップ間のスムーズな接続用ノード
+RUN git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep.git
+
 # ============================================================
 # カスタムノードの依存パッケージを一括インストール
 # ============================================================
