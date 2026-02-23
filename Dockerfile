@@ -164,6 +164,7 @@ RUN $VENV_DIR/bin/pip install jupyterlab
 WORKDIR /
 COPY start.sh /start.sh
 COPY patches.sh /patches.sh
+COPY lora_list.txt /lora_list.txt
 RUN chmod +x /start.sh /patches.sh
 
 EXPOSE 8188 8888

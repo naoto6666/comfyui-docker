@@ -1,0 +1,48 @@
+# ============================================================
+# LoRA自動ダウンロードリスト (旧ワークフローから自動抽出)
+# ============================================================
+# フォーマット: ファイル名|CivitAI バージョンID
+# /workspace/lora_list.txt に配置
+# CIVITAI_API_KEY 環境変数が必要
+#
+# 使い方:
+#   1. このファイルを /workspace/lora_list.txt にコピー
+#   2. RunPodのPod環境変数に CIVITAI_API_KEY を設定
+#   3. Pod起動時に自動ダウンロード
+# ============================================================
+
+# --- Tier S (おすすめ) ---
+Nsfw/GeneralNSFW.safetensors|2073605
+Nsfw/BouncingBoobs.safetensors|2191217
+Nsfw/Orgasm.safetensors|2178018
+Nsfw/PovInsertion.safetensors|2200389
+Nsfw/CumshotAesthetics.safetensors|2116027
+
+# --- Tier A (発展系) ---
+Nsfw/Dancing.safetensors|2174518
+Nsfw/GlassKiss.safetensors|2150205
+Nsfw/HighScreenFlood.safetensors|2156513
+Nsfw/LiveWallpaper.safetensors|2067386
+Nsfw/MiddleFinger.safetensors|2145805
+
+# --- 体位・行為系 ---
+Nsfw/AnalSex.safetensors|2161023
+Nsfw/AssertiveCowgirl.safetensors|2129122
+Nsfw/BreastExpansion.safetensors|2171522
+Nsfw/R3v3rs3C0wg1rl.safetensors|2156392
+Nsfw/DeepthroatBlowjob.safetensors|2152516
+Nsfw/DildoFuckingMachine.safetensors|2176320
+Nsfw/F4c3spl4shCumshot.safetensors|2178869
+Nsfw/Footjob.safetensors|2107285
+Nsfw/FutanariTrans.safetensors|2163877
+Nsfw/HandBlowjob.safetensors|2149593
+Nsfw/HugeTitfuck.safetensors|2166737
+Nsfw/MatingPress.safetensors|2122806
+Nsfw/OralInsertion.safetensors|2121297
+Nsfw/PenisPlay.safetensors|2087124
+Nsfw/PovCowgirl.safetensors|2127901
+Nsfw/PovDoubleBlowjob.safetensors|2164213
+Nsfw/PovMissionary.safetensors|2098405
+Nsfw/ReverseSuspendedCongress.safetensors|2145089
+Nsfw/UltimateDeepThroat.safetensors|2122049
+Nsfw/WrigglingMotion.safetensors|2161335

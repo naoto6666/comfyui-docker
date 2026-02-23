@@ -124,6 +124,12 @@ echo "[7/7] Checking LoRA files..."
 CIVITAI_API_KEY="${CIVITAI_API_KEY:-}"
 LORA_LIST="$WORKSPACE/lora_list.txt"
 
+# Docker内のlora_list.txtをworkspaceに自動コピー（初回のみ）
+if [ ! -f "$LORA_LIST" ] && [ -f /lora_list.txt ]; then
+    cp /lora_list.txt "$LORA_LIST"
+    echo "  ✓ lora_list.txt copied to workspace"
+fi
+
 # lora_list.txt のフォーマット (1行1LoRA):
 #   filename|civitai_version_id
 # 例:
