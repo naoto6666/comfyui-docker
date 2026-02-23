@@ -112,9 +112,6 @@ RUN git clone https://github.com/cubiq/ComfyUI_essentials.git
 # tinyterraNodes: 追加ユーティリティ
 RUN git clone https://github.com/TinyTerra/ComfyUI_tinyterraNodes.git
 
-# KayTool: データ表示ノード
-RUN git clone https://github.com/KayJayCee/ComfyUI-KayTool.git
-
 # ComfyLiterals: リテラル値ノード
 RUN git clone https://github.com/M1kep/ComfyLiterals.git
 
