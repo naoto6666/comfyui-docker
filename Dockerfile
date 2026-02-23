@@ -1,10 +1,15 @@
 # ============================================================
-# MOV Workflow Tool - RunPod ComfyUI Docker Template v1.0
+# MOV Workflow Tool - RunPod ComfyUI Docker Template v2.0
 # ============================================================
 # Architecture: "Symlink方式"
 #   - ComfyUI本体 + venv + カスタムノード → コンテナディスク (/opt/comfyui)
 #   - モデル・出力・設定 → ワークスペース (/workspace) にシンボリックリンク
 #   - Terminate → 再デプロイしてもComfyUI自体の再インストール不要（爆速起動）
+#
+# v2.0 Changes:
+#   - 旧ワークフロー(00-I2v_ImageToVideo_FINAL)に必要な全カスタムノード追加
+#   - fp16_accumulation / class_type バグの自動パッチ
+#   - LoRA自動ダウンロード対応
 # ============================================================
 
 FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
@@ -51,22 +56,27 @@ RUN $VENV_DIR/bin/pip install \
 RUN $VENV_DIR/bin/pip install -r $COMFYUI_DIR/requirements.txt
 
 # ============================================================
-# カスタムノード（Wan2.2動画生成 + アップスケール + ユーティリティ）
+# カスタムノード — 動画生成コア
 # ============================================================
 WORKDIR $COMFYUI_DIR/custom_nodes
 
-# --- Wan2.2 動画生成 ---
 # WanVideoWrapper: Wan2.2のComfyUI統合ノード
 RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git
 
 # VideoHelperSuite: 動画入出力・プレビュー
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
 
-# --- アップスケール ---
+# ============================================================
+# カスタムノード — アップスケール・画像処理
+# ============================================================
+
 # Ultimate Upscale: タイル分割アップスケール
 RUN git clone https://github.com/ssitu/ComfyUI_UltimateSDUpscale.git
 
-# --- ユーティリティ ---
+# ============================================================
+# カスタムノード — ユーティリティ (基本)
+# ============================================================
+
 # KJ Nodes: 便利ユーティリティ群
 RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git
 
@@ -76,15 +86,58 @@ RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
 # ComfyUI Manager: ノード管理UI
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git
 
-# Impact Pack: 検出・セグメント系
+# Impact Pack: 検出・セグメント系 (SAM2, UltralyticsDetectorProvider含む)
 RUN git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
 
-# --- VACE（キャラクター一貫性 + SVI無限動画）---
-# WanVaceAdvanced: VACE制御ノード（リファレンス画像、強度調整、ファントム埋め込み）
+# ============================================================
+# カスタムノード — VACE (キャラクター一貫性 + SVI無限動画)
+# ============================================================
+
+# WanVaceAdvanced: VACE制御ノード
 RUN git clone https://github.com/drozbay/ComfyUI-WanVaceAdvanced.git
 
 # Wan-VACE-Prep: クリップ間のスムーズな接続用ノード
 RUN git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep.git
+
+# ============================================================
+# カスタムノード — 旧ワークフロー(00-I2v)で必要なノード
+# ============================================================
+
+# rgthree: Mute/Bypass Repeater, Fast Groups Bypasser, Any Switch, Label, etc.
+RUN git clone https://github.com/rgthree/rgthree-comfy.git
+
+# ComfyUI_essentials: 基本ユーティリティ
+RUN git clone https://github.com/cubiq/ComfyUI_essentials.git
+
+# tinyterraNodes: 追加ユーティリティ
+RUN git clone https://github.com/TinyTerra/ComfyUI_tinyterraNodes.git
+
+# KayTool: データ表示ノード
+RUN git clone https://github.com/KayJayCee/ComfyUI-KayTool.git
+
+# ComfyLiterals: リテラル値ノード
+RUN git clone https://github.com/M1kep/ComfyLiterals.git
+
+# ComfyUI Model Downloader: モデル自動ダウンロード
+RUN git clone https://github.com/ciri/comfyui-model-downloader.git
+
+# OllamaGemini: LLMプロンプト生成 (オプション)
+RUN git clone https://github.com/fairy-root/ComfyUI-OllamaGemini.git
+
+# pysssss Custom Scripts: StringFunction等
+RUN git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git
+
+# RIFE VFI: フレーム補間
+RUN git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
+
+# Florence2: 画像解析・自動プロンプト
+RUN git clone https://github.com/kijai/ComfyUI-Florence2.git
+
+# CyberEve: バッチイメージループ (Refiner用)
+RUN git clone https://github.com/CyberEve/ComfyUI-CyberEve-Extensions.git || true
+
+# mxSlider: スライダーウィジェット
+RUN git clone https://github.com/mxmurw/ComfyUI-mxSlider.git || true
 
 # ============================================================
 # カスタムノードの依存パッケージを一括インストール
@@ -101,16 +154,17 @@ RUN for dir in */; do \
     done
 
 # ============================================================
-# Jupyter Notebook（オプション: 管理用）
+# Jupyter Notebook（管理用）
 # ============================================================
 RUN $VENV_DIR/bin/pip install jupyterlab
 
 # ============================================================
-# 起動スクリプト
+# 起動スクリプト + パッチスクリプト
 # ============================================================
 WORKDIR /
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
+COPY patches.sh /patches.sh
+RUN chmod +x /start.sh /patches.sh
 
 EXPOSE 8188 8888
 

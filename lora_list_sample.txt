@@ -1,0 +1,19 @@
+# ============================================================
+# LoRA自動ダウンロードリスト
+# ============================================================
+# フォーマット: ファイル名|CivitAI バージョンID
+# /workspace/lora_list.txt に配置
+# CIVITAI_API_KEY 環境変数が必要
+#
+# CivitAIのバージョンIDの確認方法:
+#   モデルページ → 「Download」ボタンのURLの末尾の数字
+#   例: https://civitai.com/api/download/models/2073605 → 2073605
+# ============================================================
+
+# --- NSFW LoRA ---
+# General NSFW (汎用挿入)
+# Nsfw/general-nsfw-high.safetensors|2073605
+# Nsfw/general-nsfw-low.safetensors|XXXXXXX
+
+# --- 以下にLoRAを追加 ---
+# Nsfw/your-lora-name.safetensors|VERSION_ID

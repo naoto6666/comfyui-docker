@@ -6,6 +6,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'start.sh'
+      - 'patches.sh'
       - '.github/workflows/**'
   workflow_dispatch:  # 手動実行も可能
 
